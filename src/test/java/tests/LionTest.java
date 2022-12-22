@@ -1,61 +1,49 @@
 package tests;
 
+import com.example.Feline;
 import com.example.Lion;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.junit.MockitoJUnitRunner;
+
+import static org.junit.Assert.assertEquals;
 
 import java.util.List;
 
-import static org.junit.Assert.fail;
-
-//@RunWith(MockitoJUnitRunner.class)
-@RunWith(Parameterized.class)
+@RunWith(MockitoJUnitRunner.class)
 public class LionTest {
 
     Lion lion;
+    @Mock
+    Feline felineMock;
     List lionFoodScope = List.of("Животные", "Птицы", "Рыба");
 
-    String sex;
-    String result;
-    public LionTest(String sex, String result){
-        this.sex = sex;
-        this.result = result;
-    }
-
-    @Parameterized.Parameters
-    public static Object[][] getData() {
-        return new Object[][] {
-                {"Самка", "false"},
-                {"Самец", "true"},
-                {"incorrect", "exception"},
-                {"", "exception"}
-        };
-    }
-
-    @Test
-    public void setLionSexValueCorrectTest() throws Exception {
-        try{
-            lion = new Lion(this.sex);
-            if(this.result == "true"){
-                assert lion.doesHaveMane() == true;
-            } else if(this.result == "false") {
-                assert lion.doesHaveMane() == false;
-            } else {
-                fail("Должно быть брошено исключение ввиду некорректного значения пола животного");
-            }
-
-        } catch (Exception exception) {
-            if(this.result != "exception"){
-                fail("Исключение не должно быть брошено");
-            }
-        }
-
+    @Before
+    public void init() throws Exception {
+        lion = new Lion("Самец", felineMock);
     }
 
     @Test
     public void getFoodSuccessTest() throws Exception {
-        lion = new Lion("Самец");
         assert this.lion.getFood().equals(lionFoodScope);
+    }
+
+    @Test
+    public void getKittensWithoutValueSuccessTest() throws Exception {
+        int expectedResult = 1;
+        Mockito.when(felineMock.getKittens()).thenReturn(1);
+        int actualResult = lion.getKittens();
+        assertEquals(expectedResult, actualResult);
+    }
+
+    @Test
+    public void getKittensWithValueSuccessTest() throws Exception {
+        int expectedResult = 3;
+        Mockito.when(felineMock.getKittens()).thenReturn(3);
+        int actualResult = lion.getKittens();
+        assertEquals(expectedResult, actualResult);
     }
 }

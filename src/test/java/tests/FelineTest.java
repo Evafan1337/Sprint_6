@@ -25,22 +25,22 @@ public class FelineTest {
     }
 
     @Test
-    public void eatMeatSuccesTest() throws Exception {
+    public void eatMeatSuccessTest() throws Exception {
         assert this.feline.eatMeat().equals(felineFoodScope);
     }
 
     @Test
-    public void getFamilySuccesTest(){
+    public void getFamilySuccessTest(){
         assert this.feline.getFamily().equals(felineFamilyDefinition);
     }
 
     @Test
-    public void getKittensCallSuccesTest(){
+    public void getKittensCallSuccessTest(){
         assert feline.getKittens(5) == 5;
     }
 
     @Test
-    public void getKittensEmptyCallSuccesTest(){
+    public void getKittensEmptyCallSuccessTest(){
         assert feline.getKittens() == 1;
     }
 

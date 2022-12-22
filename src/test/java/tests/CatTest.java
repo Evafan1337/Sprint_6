@@ -6,7 +6,12 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
+
+import java.util.List;
+
+import static org.junit.Assert.assertEquals;
 
 @RunWith(MockitoJUnitRunner.class)
 public class CatTest {
@@ -14,11 +19,11 @@ public class CatTest {
 
     Cat cat;
     @Mock
-    Feline feline;
+    Feline felineMock;
 
     @Before
     public void init(){
-        this.cat = new Cat(feline);
+        this.cat = new Cat(felineMock);
     }
 
     @Test
@@ -27,8 +32,14 @@ public class CatTest {
     }
 
     @Test
-    public void getFoodSuccesTest() throws Exception {
-        this.cat = new Cat(new Feline());
-        assert cat.getFood().size() != 0;
+    public void getFoodSuccessTest() throws Exception {
+
+        Mockito.when(felineMock.eatMeat()).thenReturn(List.of("Животные", "Птицы", "Рыба"));
+
+        List expectedResult = List.of("Животные", "Птицы", "Рыба");
+        List actualResult = cat.getFood();
+
+        assertEquals(expectedResult, actualResult);
     }
+
 }
